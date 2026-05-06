@@ -7,15 +7,25 @@ export interface Filters {
   furnishing: string[];
   search: string;
   propertyType: string;
+  is_halal_kitchen?: boolean;
+  is_prayer_space?: boolean;
+  is_alcohol_free?: boolean;
+  near_mosque?: boolean;
+  genderPreference?: string;
 }
 
 const DEFAULT_FILTERS: Filters = {
   bhk: [],
   minRent: 0,
-  maxRent: 200000,
+  maxRent: 5000,
   furnishing: [],
   search: "",
   propertyType: "All",
+  is_halal_kitchen: false,
+  is_prayer_space: false,
+  is_alcohol_free: false,
+  near_mosque: false,
+  genderPreference: "Any",
 };
 
 export default function SearchFilters({
@@ -143,22 +153,59 @@ export default function SearchFilters({
             <div className="flex justify-between mb-1">
               <p className="text-xs text-gray-400">Rent Range</p>
               <p className="text-xs text-orange-400">
-                ₹{(filters.minRent/1000).toFixed(0)}k – ₹{(filters.maxRent/1000).toFixed(0)}k
+                ${(filters.minRent/1000).toFixed(0)}k – ${(filters.maxRent/1000).toFixed(0)}k
               </p>
             </div>
             <div className="space-y-1.5">
               <input
-                type="range" min={0} max={200000} step={5000}
+                type="range" min={0} max={5000} step={100}
                 value={filters.minRent}
                 onChange={(e) => update({ minRent: Math.min(Number(e.target.value), filters.maxRent - 5000) })}
                 className="w-full accent-orange-500"
               />
               <input
-                type="range" min={0} max={200000} step={5000}
+                type="range" min={0} max={5000} step={100}
                 value={filters.maxRent}
                 onChange={(e) => update({ maxRent: Math.max(Number(e.target.value), filters.minRent + 5000) })}
                 className="w-full accent-orange-500"
               />
+            </div>
+          </div>
+
+          {/* Muslim Filters */}
+          <div>
+            <p className="text-xs text-gray-400 mb-2">Muslim Friendly</p>
+            <div className="grid grid-cols-2 gap-2">
+              {[
+                { key: "is_halal_kitchen", label: "🍖 Halal Kitchen" },
+                { key: "is_prayer_space", label: "🕌 Prayer Space" },
+                { key: "is_alcohol_free", label: "🚫 Alcohol Free" },
+                { key: "near_mosque", label: "🕌 Near Mosque" },
+              ].map((f) => (
+                <button key={f.key}
+                  onClick={() => update({ [f.key]: !filters[f.key] })}
+                  className={`py-1.5 px-2 rounded-lg text-xs font-semibold border text-left ${
+                    filters[f.key] ? "bg-green-600 border-green-500 text-white" : "bg-gray-800 border-gray-600 text-gray-300"
+                  }`}>
+                  {f.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Gender Preference */}
+          <div>
+            <p className="text-xs text-gray-400 mb-2">Gender Preference</p>
+            <div className="flex gap-2">
+              {["Any", "Male Only", "Female Only"].map((g) => (
+                <button key={g}
+                  onClick={() => update({ genderPreference: g })}
+                  className={`flex-1 py-1.5 rounded-lg text-xs font-semibold border ${
+                    filters.genderPreference === g ? "bg-green-600 border-green-500 text-white" : "bg-gray-800 border-gray-600 text-gray-300"
+                  }`}>
+                  {g}
+                </button>
+              ))}
             </div>
           </div>
 

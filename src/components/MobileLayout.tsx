@@ -79,7 +79,7 @@ export default function MobileLayout({
 
       {/* TOP BAR */}
       <div className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-4 py-3 bg-gradient-to-b from-black/80 to-transparent">
-        <h1 className="text-orange-500 font-bold text-base">EasyHouseHunt</h1>
+        <h1 className="text-green-500 font-bold text-base">HalalNest</h1>
         <div className="flex items-center gap-2">
           {user ? (
             <>
@@ -123,7 +123,7 @@ export default function MobileLayout({
             </>
           ) : (
             <button onClick={onSignIn}
-              className="bg-orange-500 text-white text-xs px-3 py-1.5 rounded-full font-medium">
+              className="bg-green-600 text-white text-xs px-3 py-1.5 rounded-full font-medium">
               Sign in
             </button>
           )}
@@ -142,7 +142,7 @@ export default function MobileLayout({
       {/* LIST YOUR PROPERTY FAB */}
       <div className="absolute left-4 z-20" style={{bottom: `calc(${sheetHeights[sheetState]} + 16px)`, transition: "bottom 0.3s ease"}}>
         <button onClick={onListProperty}
-          className="bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold px-4 py-2.5 rounded-full shadow-lg">
+          className="bg-green-600 hover:bg-orange-600 text-white text-sm font-semibold px-4 py-2.5 rounded-full shadow-lg">
           + List Property
         </button>
       </div>

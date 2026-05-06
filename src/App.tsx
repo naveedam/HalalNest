@@ -40,6 +40,7 @@ function App() {
       const { data, error } = await supabase
         .from("properties")
         .select("id, title, rent, bhk, address, latitude, longitude, deposit, furnishing, area_sqft, description, amenities, media_urls, landlord_id, property_type, occupancy")
+        .eq("market", "us_student")
         .not("latitude", "is", null)
         .not("longitude", "is", null)
         .limit(100);
@@ -140,7 +141,7 @@ function App() {
         <div className="w-[350px] bg-black text-white overflow-y-auto flex flex-col">
           <div className="p-4 space-y-2">
             <div className="flex items-center justify-between mb-2">
-              <h1 className="text-orange-500 font-bold text-lg">EasyHouseHunt</h1>
+              <h1 className="text-green-500 font-bold text-lg">HalalNest</h1>
               {user ? (
                 <div className="relative">
                   <button
@@ -187,7 +188,7 @@ function App() {
               )}
             </div>
             <button onClick={handleListProperty}
-              className="bg-orange-500 hover:bg-orange-600 w-full py-3 rounded font-semibold">
+              className="bg-green-600 hover:bg-green-700 w-full py-3 rounded font-semibold">
               + List Your Property
             </button>
           </div>

@@ -22,8 +22,8 @@ export default function MapView({
     const map = new maplibregl.Map({
       container: mapContainer.current,
       style: "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
-      center: [77.5946, 12.9716],
-      zoom: 11,
+      center: [-83.7430, 42.2808],
+      zoom: 13,
     });
     mapRef.current = map;
     map.on("load", () => { setMapLoaded(true); console.log("Map loaded"); });
@@ -47,7 +47,7 @@ export default function MapView({
       el.style.background = isSelected ? "#f97316" : "#22d3ee";
       el.style.color = isSelected ? "#fff" : "#000";
       el.style.boxShadow = isSelected ? "0 0 12px rgba(249,115,22,0.8)" : "none";
-      el.innerText = p.rent ? "₹" + Math.round(p.rent / 1000) + "k" : "₹";
+      el.innerText = p.rent ? "$" + Math.round(p.rent / 1000) + "k" : "$";
       el.addEventListener("click", () => {
         map.flyTo({ center: [p.longitude!, p.latitude!], zoom: 15, speed: 1.2 });
         onMarkerClick?.(p);

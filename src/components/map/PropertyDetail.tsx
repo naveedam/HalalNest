@@ -55,7 +55,7 @@ export default function PropertyDetail({
         {/* Title & Price */}
         <h2 className="text-xl font-bold">{property.title || "Untitled"}</h2>
         <p className="text-green-400 text-2xl font-bold mt-1">
-          ₹{property.rent?.toLocaleString()}/mo
+          ${property.rent?.toLocaleString()}/mo
         </p>
 
         {/* Key details */}
@@ -86,7 +86,7 @@ export default function PropertyDetail({
           )}
           {property.deposit && (
             <span className="bg-gray-700 px-3 py-1 rounded-full text-sm">
-              Deposit: ₹{property.deposit.toLocaleString()}
+              Deposit: ${property.deposit.toLocaleString()}
             </span>
           )}
         </div>

@@ -4,16 +4,16 @@ import { useAuth } from "@/hooks/useAuth";
 import AuthModal from "@/components/ui/AuthModal";
 
 const PROJECTS = [
-  "Embassy Lake Terraces", "RMZ Latitude", "Godrej Woodman Estate",
-  "SNN Clermont", "Karle Zenith Residences", "Prestige Lakeside Habitat",
-  "Sobha City", "Nikoo Homes", "Brigade Cornerstone Utopia",
-  "Purva Atmosphere", "Other",
+  "Studio Apartment", "1 Bedroom Apartment", "2 Bedroom Apartment",
+  "Room in Shared House", "Basement Suite", "Guest House",
+  "University Housing", "Other",
 ];
 
 const AMENITY_OPTIONS = [
-  "Gym", "Swimming Pool", "Parking", "Security", "Power Backup",
-  "Lift", "Club House", "Garden", "CCTV", "Intercom",
-  "Water Supply 24/7", "Gas Pipeline", "Pet Friendly", "Visitor Parking",
+  "Halal Kitchen", "Prayer Space", "Alcohol Free", "Near Mosque",
+  "Near Campus", "WiFi Included", "Utilities Included", "Laundry",
+  "Parking", "Furnished", "Female Only", "Male Only",
+  "Quiet Hours", "Muslim Roommates", "No Pets",
 ];
 
 const inp = "w-full bg-gray-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-orange-500";
@@ -40,7 +40,7 @@ export default function ListingWizard({ onClose, onSuccess }: {
   const [form, setForm] = useState({
     address: "", rent: "", deposit: "", bhk: "2",
     area_sqft: "", furnishing: "Semi", description: "",
-    latitude: "", longitude: "", property_type: "Apartment", occupancy: "Single",
+    latitude: "", longitude: "", property_type: "Apartment", occupancy: "Single", market: "us_student", near_university: "", gender_preference: "Any",
   });
 
   const set = (k: string, v: string) => setForm(f => ({ ...f, [k]: v }));
@@ -54,7 +54,7 @@ export default function ListingWizard({ onClose, onSuccess }: {
     setGeoFailed(false);
     try {
       const res = await fetch(
-        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(form.address + ", Bangalore")}&format=json&limit=1`
+        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(form.address)}&format=json&limit=1`
       );
       const data = await res.json();
       if (data[0]) {
@@ -124,6 +124,8 @@ export default function ListingWizard({ onClose, onSuccess }: {
       landlord_id: user.id,
       property_type: form.property_type,
       occupancy: form.property_type === "PG" ? form.occupancy : null,
+      market: "us_student",
+      near_university: form.near_university || null,
     });
 
     setSaving(false);
@@ -196,16 +198,32 @@ export default function ListingWizard({ onClose, onSuccess }: {
               </div>
               {selectedProject === "Other" && (
                 <div>
-                  <label className="text-sm text-gray-400">Apartment Name *</label>
+                  <label className="text-sm text-gray-400">Property Name *</label>
                   <input className={inp + " mt-1"} placeholder="Enter name" value={customProject} onChange={e => setCustomProject(e.target.value)} />
                 </div>
               )}
+              <div>
+                <label className="text-sm text-gray-400">Gender Preference</label>
+                <div className="flex gap-2 mt-1">
+                  {["Any", "Male Only", "Female Only"].map(g => (
+                    <button key={g} onClick={() => set("gender_preference", g)}
+                      className={`flex-1 py-2 rounded-lg text-sm font-medium border ${form.gender_preference === g ? "bg-green-600 border-green-500 text-white" : "bg-gray-800 border-gray-600 text-gray-300"}`}>
+                      {g}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <label className="text-sm text-gray-400">Nearest University *</label>
+                <input className={inp + " mt-1"} placeholder="e.g. University of Michigan, NYU, UCLA"
+                  value={form.near_university} onChange={e => set("near_university", e.target.value)} />
+              </div>
               <div>
                 <label className="text-sm text-gray-400">Full Address *</label>
                 <div className="flex gap-2 mt-1">
                   <input
                     className={inp + " flex-1"}
-                    placeholder="e.g. Embassy Lake Terraces, Hebbal, Bangalore 560024"
+                    placeholder="e.g. 123 Main St, Ann Arbor, MI 48104"
                     value={form.address}
                     onChange={e => { set("address", e.target.value); setGeoFailed(false); setGeoStatus(""); }}
                   />
@@ -271,12 +289,12 @@ export default function ListingWizard({ onClose, onSuccess }: {
           {step === 2 && (
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="text-sm text-gray-400">Monthly Rent (₹) *</label>
-                <input type="number" className={inp + " mt-1"} placeholder="e.g. 35000" value={form.rent} onChange={e => set("rent", e.target.value)} />
+                <label className="text-sm text-gray-400">Monthly Rent ($) *</label>
+                <input type="number" className={inp + " mt-1"} placeholder="e.g. 800" value={form.rent} onChange={e => set("rent", e.target.value)} />
               </div>
               <div>
-                <label className="text-sm text-gray-400">Deposit (₹)</label>
-                <input type="number" className={inp + " mt-1"} placeholder="e.g. 100000" value={form.deposit} onChange={e => set("deposit", e.target.value)} />
+                <label className="text-sm text-gray-400">Deposit ($)</label>
+                <input type="number" className={inp + " mt-1"} placeholder="e.g. 1500" value={form.deposit} onChange={e => set("deposit", e.target.value)} />
               </div>
               <div>
                 {form.property_type === "PG" ? (
@@ -413,7 +431,7 @@ export default function ListingWizard({ onClose, onSuccess }: {
               <div className="bg-gray-800 rounded-lg p-3 text-xs space-y-1">
                 <p className="text-gray-400 font-semibold mb-2">Listing Summary</p>
                 <p><span className="text-gray-400">Property:</span> <span className="text-white">{selectedProject === "Other" ? customProject : selectedProject}</span></p>
-                <p><span className="text-gray-400">Rent:</span> <span className="text-green-400 font-bold">₹{parseInt(form.rent || "0").toLocaleString()}/mo</span></p>
+                <p><span className="text-gray-400">Rent:</span> <span className="text-green-400 font-bold">${parseInt(form.rent || "0").toLocaleString()}/mo</span></p>
                 <p><span className="text-gray-400">BHK:</span> <span className="text-white">{form.bhk} BHK · {form.furnishing}</span></p>
                 {form.area_sqft && <p><span className="text-gray-400">Area:</span> <span className="text-white">{form.area_sqft} sqft</span></p>}
                 {amenities.length > 0 && <p><span className="text-gray-400">Amenities:</span> <span className="text-white">{amenities.length} selected</span></p>}

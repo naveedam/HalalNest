@@ -23,7 +23,7 @@ export default function PropertyList({ properties, onSelect }: Props) {
           className="bg-gray-800 p-4 rounded-lg cursor-pointer hover:bg-gray-700 transition-colors"
         >
           <h3 className="text-white font-semibold text-sm">{p.title || "Untitled"}</h3>
-          <p className="text-green-400 font-bold">₹{p.rent?.toLocaleString()}/mo</p>
+          <p className="text-green-400 font-bold">${p.rent?.toLocaleString()}/mo</p>
           {p.property_type === "PG" ? (
             <p className="text-gray-300 text-xs">PG · {p.occupancy || "Single"} Occupancy</p>
           ) : p.bhk ? (
