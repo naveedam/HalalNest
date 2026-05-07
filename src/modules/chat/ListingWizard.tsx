@@ -40,7 +40,7 @@ export default function ListingWizard({ onClose, onSuccess }: {
   const [form, setForm] = useState({
     address: "", rent: "", deposit: "", bhk: "2",
     area_sqft: "", furnishing: "Semi", description: "",
-    latitude: "", longitude: "", property_type: "Apartment", occupancy: "Single", market: "us_student", near_university: "", gender_preference: "Any",
+    latitude: "", longitude: "", property_type: "Apartment", occupancy: "Single", market: "us_student", near_university: "", gender_preference: "Any", is_halal_kitchen: false, is_prayer_space: false, is_alcohol_free: false, near_mosque: false,
   });
 
   const set = (k: string, v: string) => setForm(f => ({ ...f, [k]: v }));
@@ -125,7 +125,12 @@ export default function ListingWizard({ onClose, onSuccess }: {
       property_type: form.property_type,
       occupancy: form.property_type === "PG" ? form.occupancy : null,
       market: "us_student",
-      near_university: form.near_university || null,
+      near_university: form.near_university ? true : false,
+      is_halal_kitchen: form.is_halal_kitchen || false,
+      is_prayer_space: form.is_prayer_space || false,
+      is_alcohol_free: form.is_alcohol_free || false,
+      near_mosque: form.near_mosque || false,
+      gender_preference: form.gender_preference || "Any",
     });
 
     setSaving(false);
@@ -343,9 +348,29 @@ export default function ListingWizard({ onClose, onSuccess }: {
 
           {/* Step 4: Amenities */}
           {step === 4 && (
-            <div>
-              <label className="text-sm text-gray-400 mb-3 block">Select all that apply</label>
-              <div className="grid grid-cols-2 gap-2">
+            <div className="space-y-5">
+              {/* Muslim Friendly */}
+              <div>
+                <label className="text-sm text-gray-400 mb-2 block">Muslim Friendly</label>
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    { key: "is_halal_kitchen", label: "🍖 Halal Kitchen" },
+                    { key: "is_prayer_space", label: "🕌 Prayer Space" },
+                    { key: "is_alcohol_free", label: "🚫 Alcohol Free" },
+                    { key: "near_mosque", label: "🕌 Near Mosque" },
+                    { key: "near_university", label: "🎓 Near University" },
+                  ].map(f => (
+                    <button key={f.key} onClick={() => set(f.key, !form[f.key])}
+                      className={`py-2 px-3 rounded-lg text-sm text-left border ${form[f.key] ? "bg-green-600/20 border-green-500 text-green-300" : "bg-gray-800 border-gray-600 text-gray-300"}`}>
+                      {form[f.key] ? "✓ " : ""}{f.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              {/* General Amenities */}
+              <div>
+                <label className="text-sm text-gray-400 mb-2 block">Amenities</label>
+                <div className="grid grid-cols-2 gap-2">
                 {AMENITY_OPTIONS.map(a => (
                   <button key={a} onClick={() => toggleAmenity(a)}
                     className={`py-2 px-3 rounded-lg text-sm text-left border ${amenities.includes(a) ? "bg-orange-500/20 border-orange-500 text-orange-300" : "bg-gray-800 border-gray-600 text-gray-300"}`}>
