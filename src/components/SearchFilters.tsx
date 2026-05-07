@@ -181,6 +181,7 @@ export default function SearchFilters({
                 { key: "is_prayer_space", label: "🕌 Prayer Space" },
                 { key: "is_alcohol_free", label: "🚫 Alcohol Free" },
                 { key: "near_mosque", label: "🕌 Near Mosque" },
+                { key: "near_university", label: "🎓 Near University" },
               ].map((f) => (
                 <button key={f.key}
                   onClick={() => update({ [f.key]: !filters[f.key] })}

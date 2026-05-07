@@ -32,14 +32,14 @@ function App() {
   const [adminDashOpen, setAdminDashOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [filters, setFilters] = useState<Filters>({
-    bhk: [], minRent: 0, maxRent: 200000, furnishing: [], search: "", propertyType: "All"
+    bhk: [], minRent: 0, maxRent: 200000, furnishing: [], search: "", propertyType: "All", is_halal_kitchen: false, is_prayer_space: false, is_alcohol_free: false, near_mosque: false, near_university: false, gender_preference: "Any"
   });
 
   async function fetchProperties() {
     try {
       const { data, error } = await supabase
         .from("properties")
-        .select("id, title, rent, bhk, address, latitude, longitude, deposit, furnishing, area_sqft, description, amenities, media_urls, landlord_id, property_type, occupancy")
+        .select("id, title, rent, bhk, address, latitude, longitude, deposit, furnishing, area_sqft, description, amenities, media_urls, landlord_id, property_type, occupancy, market, is_halal_kitchen, is_prayer_space, is_alcohol_free, near_mosque, near_university, gender_preference")
         .eq("market", "us_student")
         .not("latitude", "is", null)
         .not("longitude", "is", null)
@@ -94,6 +94,12 @@ function App() {
     if (p.rent < filters.minRent || p.rent > filters.maxRent) return false;
     if (filters.furnishing.length > 0 && !filters.furnishing.includes(p.furnishing ?? "")) return false;
     if (filters.propertyType !== "All" && p.property_type !== filters.propertyType) return false;
+    if (filters.is_halal_kitchen && !p.is_halal_kitchen) return false;
+    if (filters.is_prayer_space && !p.is_prayer_space) return false;
+    if (filters.is_alcohol_free && !p.is_alcohol_free) return false;
+    if (filters.near_mosque && !p.near_mosque) return false;
+    if (filters.near_university && !p.near_university) return false;
+    if (filters.gender_preference && filters.gender_preference !== "Any" && p.gender_preference !== filters.gender_preference) return false;
     if (filters.search) {
       const q = filters.search.toLowerCase();
       if (!p.title?.toLowerCase().includes(q) && !p.address?.toLowerCase().includes(q)) return false;

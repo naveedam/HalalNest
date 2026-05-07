@@ -26,6 +26,15 @@ export interface Database {
           longitude: number;
           media_urls: string[] | null;
           created_at: string;
+          market?: string | null;
+          is_halal_kitchen?: boolean | null;
+          is_prayer_space?: boolean | null;
+          is_alcohol_free?: boolean | null;
+          near_mosque?: boolean | null;
+          near_university?: boolean | null;
+          gender_preference?: string | null;
+          property_type?: string | null;
+          occupancy?: string | null;
         };
         Insert: {
           id?: string;
