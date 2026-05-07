@@ -109,7 +109,7 @@ export default function OwnerDashboard({ onClose }: { onClose: () => void }) {
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
                         <p className="font-semibold">{l.title}</p>
-                        <p className="text-green-400 font-bold">₹{l.rent?.toLocaleString()}/mo</p>
+                        <p className="text-green-400 font-bold">${l.rent?.toLocaleString()}/mo</p>
                         <p className="text-gray-400 text-xs mt-1">{l.bhk} BR · {l.address}</p>
                         <p className="text-gray-500 text-xs mt-1">
                           Listed {new Date(l.created_at).toLocaleDateString()}
@@ -164,7 +164,7 @@ export default function OwnerDashboard({ onClose }: { onClose: () => void }) {
                 ) : saved.map(s => (
                   <div key={s.id} className="bg-gray-800 rounded-xl p-4">
                     <p className="font-semibold">{s.properties?.title}</p>
-                    <p className="text-green-400 font-bold">₹{s.properties?.rent?.toLocaleString()}/mo</p>
+                    <p className="text-green-400 font-bold">${s.properties?.rent?.toLocaleString()}/mo</p>
                     <p className="text-gray-400 text-xs mt-1">{s.properties?.bhk} BR · {s.properties?.address}</p>
                   </div>
                 ))}
