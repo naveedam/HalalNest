@@ -186,7 +186,7 @@ export default function ListingWizard({ onClose, onSuccess }: {
                     </button>
                   ))}
                 </div>
-              <label className="text-sm text-gray-400">{form.property_type === "PG" ? "PG Name *" : "Apartment / Project *"}</label>
+              <label className="text-sm text-gray-400">{form.property_type === "PG" ? "PG Name *" : "Building / Complex Name *"}</label>
                 {form.property_type === "PG" ? (
                   <input className={inp + " mt-1"} placeholder="e.g. Sri Sai PG, Rajajinagar" value={customProject} onChange={e => setCustomProject(e.target.value)} />
                 ) : (

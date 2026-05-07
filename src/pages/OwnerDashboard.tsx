@@ -33,6 +33,7 @@ export default function OwnerDashboard({ onClose }: { onClose: () => void }) {
       .from("properties")
       .select("id, title, rent, bhk, address, created_at")
       .eq("landlord_id", user.id)
+      .eq("market", "us_student")
       .order("created_at", { ascending: false });
 
     const { data: enqs } = await supabase
