@@ -80,7 +80,7 @@ export default function TenantDashboard({ onClose }: { onClose: () => void }) {
                   <div>
                     <p className="font-semibold">{s.properties?.title}</p>
                     <p className="text-green-400 font-bold">₹{s.properties?.rent?.toLocaleString()}/mo</p>
-                    <p className="text-gray-400 text-xs mt-1">{s.properties?.bhk} BHK · {s.properties?.furnishing}</p>
+                    <p className="text-gray-400 text-xs mt-1">{s.properties?.bhk} BR · {s.properties?.furnishing}</p>
                     <p className="text-gray-500 text-xs truncate">{s.properties?.address}</p>
                   </div>
                   <button onClick={() => unsaveProperty(s.id)} className="text-gray-500 hover:text-red-400 text-lg ml-2">🔖</button>

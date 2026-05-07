@@ -129,7 +129,7 @@ export default function Index() {
               </p>
 
               <p className="text-sm text-gray-400">
-                {p.bhk} BHK • {p.address}
+                {p.bhk} BR • {p.address}
               </p>
 
               {/* 🔥 VIEW DETAILS FIX */}

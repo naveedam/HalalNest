@@ -54,10 +54,10 @@ export default function PropertyFilters({ filters, onChange, onClear }: Props) {
 
       <div className="grid grid-cols-2 gap-2">
         <Select value={filters.bhk} onValueChange={v => update('bhk', v === 'all' ? '' : v)}>
-          <SelectTrigger className="text-xs"><SelectValue placeholder="BHK" /></SelectTrigger>
+          <SelectTrigger className="text-xs"><SelectValue placeholder="Bedrooms" /></SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Any BHK</SelectItem>
-            {BHK_OPTIONS.map(b => <SelectItem key={b} value={String(b)}>{b} BHK</SelectItem>)}
+            <SelectItem value="all">Any</SelectItem>
+            {BHK_OPTIONS.map(b => <SelectItem key={b} value={String(b)}>{ b} BR</SelectItem>)}
           </SelectContent>
         </Select>
 

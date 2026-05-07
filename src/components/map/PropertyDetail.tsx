@@ -71,7 +71,7 @@ export default function PropertyDetail({
             </span>
           ) : property.bhk ? (
             <span className="bg-gray-700 px-3 py-1 rounded-full text-sm">
-              {property.bhk} BHK
+              {property.bhk} BR
             </span>
           ) : null}
           {property.furnishing && (

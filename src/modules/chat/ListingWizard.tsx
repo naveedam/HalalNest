@@ -306,7 +306,7 @@ export default function ListingWizard({ onClose, onSuccess }: {
                   </>
                 ) : (
                   <>
-                    <label className="text-sm text-gray-400">BHK *</label>
+                    <label className="text-sm text-gray-400">Bedrooms *</label>
                     <select className={inp + " mt-1"} value={form.bhk} onChange={e => set("bhk", e.target.value)}>
                       {["1","2","3","4","5"].map(n => <option key={n}>{n}</option>)}
                     </select>
@@ -432,7 +432,7 @@ export default function ListingWizard({ onClose, onSuccess }: {
                 <p className="text-gray-400 font-semibold mb-2">Listing Summary</p>
                 <p><span className="text-gray-400">Property:</span> <span className="text-white">{selectedProject === "Other" ? customProject : selectedProject}</span></p>
                 <p><span className="text-gray-400">Rent:</span> <span className="text-green-400 font-bold">${parseInt(form.rent || "0").toLocaleString()}/mo</span></p>
-                <p><span className="text-gray-400">BHK:</span> <span className="text-white">{form.bhk} BHK · {form.furnishing}</span></p>
+                <p><span className="text-gray-400">BHK:</span> <span className="text-white">{form.bhk} BR · {form.furnishing}</span></p>
                 {form.area_sqft && <p><span className="text-gray-400">Area:</span> <span className="text-white">{form.area_sqft} sqft</span></p>}
                 {amenities.length > 0 && <p><span className="text-gray-400">Amenities:</span> <span className="text-white">{amenities.length} selected</span></p>}
                 <p><span className="text-gray-400">Photos:</span> <span className="text-white">{photos.length} added</span></p>

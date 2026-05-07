@@ -27,7 +27,7 @@ export default function PropertyList({ properties, onSelect }: Props) {
           {p.property_type === "PG" ? (
             <p className="text-gray-300 text-xs">PG · {p.occupancy || "Single"} Occupancy</p>
           ) : p.bhk ? (
-            <p className="text-gray-300 text-xs">{p.bhk} BHK · {p.property_type || "Apartment"}</p>
+            <p className="text-gray-300 text-xs">{p.bhk} BR · {p.property_type || "Apartment"}</p>
           ) : null}
           <p className="text-gray-400 text-xs mt-1 truncate">{p.address}</p>
           {p.is_verified && (

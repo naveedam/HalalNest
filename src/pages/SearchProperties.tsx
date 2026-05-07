@@ -47,7 +47,7 @@ export default function SearchProperties() {
               className="bg-[#1c2538] p-4 rounded-lg"
             >
               <h3 className="text-lg font-semibold">
-                {property.title || `${property.bhk} BHK`}
+                {property.title || `${property.bhk} BR`}
               </h3>
 
               <p className="text-gray-400">

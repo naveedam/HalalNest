@@ -126,10 +126,10 @@ export default function SearchFilters({
             </div>
           </div>
 
-          {/* BHK - hide for PG */}
+          {/* Bedrooms - hide for PG */}
           {filters.propertyType !== "PG" && (
           <div>
-            <p className="text-xs text-gray-400 mb-2">BHK</p>
+            <p className="text-xs text-gray-400 mb-2">Bedrooms</p>
             <div className="flex gap-2">
               {[1, 2, 3, 4].map((n) => (
                 <button
@@ -141,7 +141,7 @@ export default function SearchFilters({
                       : "bg-gray-800 border-gray-600 text-gray-300"
                   }`}
                 >
-                  {n} BHK
+                  {n} BR
                 </button>
               ))}
             </div>

@@ -69,12 +69,12 @@ export default function SearchBar({ filters, onChange, propertyCount }: Props) {
           <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 pt-3">
             <Select value={filters.bhk} onValueChange={v => onChange({ ...filters, bhk: v === 'all' ? '' : v })}>
               <SelectTrigger className="h-9 text-xs bg-secondary/50">
-                <SelectValue placeholder="BHK" />
+                <SelectValue placeholder="Bedrooms" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Any BHK</SelectItem>
+                <SelectItem value="all">Any</SelectItem>
                 {BHK_OPTIONS.map(b => (
-                  <SelectItem key={b} value={String(b)}>{b} BHK</SelectItem>
+                  <SelectItem key={b} value={String(b)}>{ b} BR</SelectItem>
                 ))}
               </SelectContent>
             </Select>

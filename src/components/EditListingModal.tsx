@@ -109,10 +109,10 @@ export default function EditListingModal({ listing, onClose, onSaved, adminMode 
             </div>
           </div>
 
-          {/* BHK + Area */}
+          {/* Bedrooms + Area */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-xs text-gray-400">BHK</label>
+              <label className="text-xs text-gray-400">Bedrooms</label>
               <select className={inp + " mt-1"} value={form.bhk} onChange={e => set("bhk", e.target.value)}>
                 {["1","2","3","4","5"].map(n => <option key={n}>{n}</option>)}
               </select>

@@ -16,7 +16,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
   return (
     <div className="bg-slate-800 p-4 rounded-xl shadow hover:shadow-lg transition">
       <h2 className="text-lg font-semibold text-white">
-        {property.title || `${property.bhk} BHK`}
+        {property.title || `${property.bhk} BR`}
       </h2>
 
       <p className="text-sm text-gray-400">
@@ -28,7 +28,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
       </p>
 
       <p className="text-sm text-gray-300 mt-1">
-        {property.bhk} BHK
+        {property.bhk} BR
       </p>
 
       <Link
