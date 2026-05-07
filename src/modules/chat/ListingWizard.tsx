@@ -243,7 +243,7 @@ export default function ListingWizard({ onClose, onSuccess }: {
                     <p className="font-semibold">📍 Could not auto-locate this address.</p>
                     <p>Try these options:</p>
                     <ol className="list-decimal list-inside space-y-1 text-yellow-200">
-                      <li>Add pincode to the address (e.g. "Hebbal, Bangalore 560024")</li>
+                      <li>Add pincode to the address (e.g. "Chicago, IL 60601")</li>
                       <li>
                         Open <a href="https://maps.google.com" target="_blank" rel="noreferrer" className="underline text-orange-400">Google Maps</a>, search your address, right-click → "What's here?" → copy the coordinates
                       </li>
@@ -270,12 +270,12 @@ export default function ListingWizard({ onClose, onSuccess }: {
                     <div className="flex gap-2 mt-1">
                       <input
                         className="flex-1 bg-gray-800 rounded px-2 py-1 text-white text-xs"
-                        placeholder="Paste latitude e.g. 13.0358"
+                        placeholder="Paste latitude e.g. 41.8781"
                         onChange={e => set("latitude", e.target.value)}
                       />
                       <input
                         className="flex-1 bg-gray-800 rounded px-2 py-1 text-white text-xs"
-                        placeholder="Paste longitude e.g. 77.5970"
+                        placeholder="Paste longitude e.g. -87.6298"
                         onChange={e => set("longitude", e.target.value)}
                       />
                     </div>

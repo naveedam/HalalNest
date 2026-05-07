@@ -36,7 +36,7 @@ export default function EditListingModal({ listing, onClose, onSaved, adminMode 
     setGeoFailed(false);
     try {
       const res = await fetch(
-        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(form.address + ", Bangalore")}&format=json&limit=1`
+        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(form.address + ", USA")}&format=json&limit=1`
       );
       const data = await res.json();
       if (data[0]) {
@@ -164,13 +164,13 @@ export default function EditListingModal({ listing, onClose, onSaved, adminMode 
               <div className="flex gap-2">
                 <input
                   className={inp + " flex-1"}
-                  placeholder="Latitude e.g. 13.0358"
+                  placeholder="Latitude e.g. 41.8781"
                   value={form.latitude}
                   onChange={e => set("latitude", e.target.value)}
                 />
                 <input
                   className={inp + " flex-1"}
-                  placeholder="Longitude e.g. 77.5970"
+                  placeholder="Longitude e.g. -87.6298"
                   value={form.longitude}
                   onChange={e => set("longitude", e.target.value)}
                 />

@@ -34,7 +34,7 @@ export default function PropertyMap({
     const map = new maplibregl.Map({
       container: mapContainer.current,
       style: "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
-      center: [77.5946, 12.9716],
+      center: [-98.5795, 39.8283],
       zoom: 11,
     });
 
