@@ -40,7 +40,6 @@ function App() {
       const { data, error } = await supabase
         .from("properties")
         .select("id, title, rent, bhk, address, latitude, longitude, deposit, furnishing, area_sqft, description, amenities, media_urls, landlord_id, property_type, occupancy, market, is_halal_kitchen, is_prayer_space, is_alcohol_free, near_mosque, near_university, gender_preference")
-        .eq("market", "us_student")
         .eq("market", "us")
         .not("latitude", "is", null)
         .not("longitude", "is", null)
