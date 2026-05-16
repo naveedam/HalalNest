@@ -379,6 +379,7 @@ export default function ListingWizard({ onClose, onSuccess }: {
                 ))}
               </div>
             </div>
+              </div>
           )}
 
           {/* Step 5: Photos */}
