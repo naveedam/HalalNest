@@ -132,6 +132,7 @@ export default function PostRequirement({ onClose, onSignIn }: { onClose: () => 
     setLoading(false);
     if (err) { console.error('Insert error:', err); setError(err.message); return; }
     console.log('Insert success');
+    alert('Your requirement has been posted! Landlords with matching properties will reach out.');
     onClose();
   };
 
