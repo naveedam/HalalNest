@@ -10,6 +10,7 @@ import SearchFilters, { Filters } from "./components/SearchFilters";
 import OwnerDashboard from "./pages/OwnerDashboard";
 import TenantDashboard from "./pages/TenantDashboard";
 import PostRequirement from './pages/PostRequirement';
+import TenantBoard from './pages/TenantBoard';
 import AdminDashboard from "./pages/AdminDashboard";
 import MobileLayout from "./components/MobileLayout";
 import { supabase } from "./integrations/supabase/client";
@@ -31,10 +32,13 @@ function App() {
   const [ownerDashOpen, setOwnerDashOpen] = useState(false);
   const [tenantDashOpen, setTenantDashOpen] = useState(false);
   const [postRequirementOpen, setPostRequirementOpen] = useState(false);
+  const [tenantBoardOpen, setTenantBoardOpen] = useState(false);
   const [adminDashOpen, setAdminDashOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [filters, setFilters] = useState<Filters>({
-    bhk: [], minRent: 0, maxRent: 200000, furnishing: [], search: "", propertyType: "All", is_halal_kitchen: false, is_prayer_space: false, is_alcohol_free: false, near_mosque: false, near_university: false, gender_preference: "Any"
+    bhk: [], minRent: 0, maxRent: 200000, furnishing: [], search: "", propertyType: "All",
+    is_halal_kitchen: false, is_prayer_space: false, is_alcohol_free: false,
+    near_mosque: false, near_university: false, gender_preference: "Any"
   });
 
   async function fetchProperties() {
@@ -46,9 +50,7 @@ function App() {
         .not("latitude", "is", null)
         .not("longitude", "is", null)
         .limit(100);
-
       if (error) { console.error("Supabase error:", error.message); setProperties([]); return; }
-
       const mapped: Property[] = (data || []).map((p: any) => ({
         id: String(p.id),
         title: p.title ?? "Untitled",
@@ -68,7 +70,6 @@ function App() {
         property_type: p.property_type ?? "Apartment",
         occupancy: p.occupancy ?? null,
       }));
-
       setProperties(mapped);
     } catch (err) {
       console.error("Fetch error:", err);
@@ -86,7 +87,6 @@ function App() {
       .then(({ data }) => setIsAdmin(data?.is_admin || false));
   }, [user]);
 
-  // Also check by email as fallback
   const adminEmail = "naveedahmedm@gmail.com";
   const isAdminByEmail = user?.email === adminEmail;
   const effectiveAdmin = isAdmin || isAdminByEmail;
@@ -148,6 +148,8 @@ function App() {
       <div className="hidden md:flex h-screen w-full">
         <div className="w-[350px] bg-black text-white overflow-y-auto flex flex-col">
           <div className="p-4 space-y-2">
+
+            {/* Header */}
             <div className="flex items-center justify-between mb-2">
               <h1 className="text-green-500 font-bold text-lg">HalalNest</h1>
               {user ? (
@@ -173,6 +175,10 @@ function App() {
                         className="w-full text-left px-4 py-3 text-sm text-white hover:bg-gray-700 flex items-center gap-2">
                         🏠 My Listings
                       </button>
+                      <button onClick={() => { setTenantBoardOpen(true); setMenuOpen(false); }}
+                        className="w-full text-left px-4 py-3 text-sm text-white hover:bg-gray-700 flex items-center gap-2">
+                        🔍 Tenant Needs
+                      </button>
                       {effectiveAdmin && (
                         <button onClick={() => { setAdminDashOpen(true); setMenuOpen(false); }}
                           className="w-full text-left px-4 py-3 text-sm text-white hover:bg-gray-700 flex items-center gap-2">
@@ -195,15 +201,25 @@ function App() {
                 </button>
               )}
             </div>
+
+            {/* Sidebar CTAs */}
             <button onClick={handleListProperty}
               className="bg-green-600 hover:bg-green-700 w-full py-3 rounded font-semibold">
-              + List Your Property</button>
+              + List Your Property
+            </button>
             <button onClick={() => setPostRequirementOpen(true)}
               className="border border-gray-600 hover:border-gray-400 w-full py-3 rounded font-semibold text-gray-300 hover:text-white text-sm">
               📋 Post your requirements
             </button>
+            <button onClick={() => setTenantBoardOpen(true)}
+              className="border border-gray-600 hover:border-gray-400 w-full py-3 rounded font-semibold text-gray-300 hover:text-white text-sm">
+              🔍 Browse tenant needs
+            </button>
+
           </div>
+
           <SearchFilters onChange={setFilters} />
+
           {loading ? (
             <p className="text-gray-400 px-4">Loading...</p>
           ) : (
@@ -213,6 +229,7 @@ function App() {
             />
           )}
         </div>
+
         <div className="flex-1">
           <MapView
             properties={filteredProperties}
@@ -259,7 +276,18 @@ function App() {
 
       {ownerDashOpen && <OwnerDashboard onClose={() => setOwnerDashOpen(false)} />}
       {tenantDashOpen && <TenantDashboard onClose={() => setTenantDashOpen(false)} />}
-      {postRequirementOpen && <PostRequirement onClose={() => setPostRequirementOpen(false)} onSignIn={() => { setPostRequirementOpen(false); setAuthIntent('tenant'); setAuthModalOpen(true); }} />}
+      {tenantBoardOpen && (
+        <TenantBoard
+          onClose={() => setTenantBoardOpen(false)}
+          onOpenChat={(tenantId) => { setTenantBoardOpen(false); }}
+        />
+      )}
+      {postRequirementOpen && (
+        <PostRequirement
+          onClose={() => setPostRequirementOpen(false)}
+          onSignIn={() => { setPostRequirementOpen(false); setAuthIntent('tenant'); setAuthModalOpen(true); }}
+        />
+      )}
       {adminDashOpen && <AdminDashboard onClose={() => setAdminDashOpen(false)} />}
     </>
   );
