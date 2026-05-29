@@ -130,7 +130,8 @@ export default function PostRequirement({ onClose, onSignIn }: { onClose: () => 
       status: 'active',
     });
     setLoading(false);
-    if (err) { setError(err.message); return; }
+    if (err) { console.error('Insert error:', err); setError(err.message); return; }
+    console.log('Insert success');
     onClose();
   };
 
