@@ -107,8 +107,8 @@ export default function PostRequirement({ onClose, onSignIn }: { onClose: () => 
   };
 
   const handleSubmit = async () => {
-    if (authLoading) { setError('Please wait...'); return; }
-    if (!user) { setError('Please sign in to post your requirements.'); return; }
+    if (authLoading) { return; }
+    if (!user) { onClose(); onSignIn(); return; }
     setLoading(true);
     setError(null);
     const { error: err } = await supabase.from('tenant_requirements').insert({
