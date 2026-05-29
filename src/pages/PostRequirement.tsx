@@ -89,7 +89,7 @@ const labelStyle: React.CSSProperties = {
   display: 'block', fontSize: 13, color: '#9ca3af', marginBottom: 8, fontWeight: 500,
 };
 
-export default function PostRequirement({ onClose }: { onClose: () => void }) {
+export default function PostRequirement({ onClose, onSignIn }: { onClose: () => void; onSignIn: () => void }) {
   const { user, loading: authLoading } = useAuth();
   const [step, setStep] = useState(0);
   const [form, setForm] = useState<FormData>(INITIAL);
