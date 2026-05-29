@@ -43,13 +43,6 @@ export default function AdminDashboard({ onClose }: { onClose: () => void }) {
       .order("created_at", { ascending: false })
       .limit(100);
     setRequirements(reqs || []);
-    const { data: reqs } = await supabase
-      .from("tenant_requirements")
-      .select("*")
-      .eq("market", "us")
-      .order("created_at", { ascending: false })
-      .limit(100);
-    setRequirements(reqs || []);
     setListings(props || []);
     setMessages(msgs || []);
     setUsers(profs || []);
