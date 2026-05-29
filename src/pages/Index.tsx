@@ -104,6 +104,15 @@ export default function Index() {
           className="w-full bg-orange-500 hover:bg-orange-600 p-3 mb-4 rounded"
         >
           + List Your Property
+          onClick={() => navigate('/post-requirement')}
+##     style={{
+##       width: '100%', padding: '12px', borderRadius: 8, marginTop: 8,
+##       background: 'transparent', border: '1px solid #3a3d46',
+##       color: '#9ca3af', fontSize: 14, fontWeight: 500, cursor: 'pointer',
+##     }}
+##   >
+##     📋 Post your requirements
+
         </button>
 
         {/* PROPERTY LIST */}

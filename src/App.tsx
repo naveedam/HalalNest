@@ -9,6 +9,7 @@ import Inbox from "./modules/chat/Inbox";
 import SearchFilters, { Filters } from "./components/SearchFilters";
 import OwnerDashboard from "./pages/OwnerDashboard";
 import TenantDashboard from "./pages/TenantDashboard";
+import PostRequirement from './pages/PostRequirement';
 import AdminDashboard from "./pages/AdminDashboard";
 import MobileLayout from "./components/MobileLayout";
 import { supabase } from "./integrations/supabase/client";
@@ -29,6 +30,7 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [ownerDashOpen, setOwnerDashOpen] = useState(false);
   const [tenantDashOpen, setTenantDashOpen] = useState(false);
+  const [postRequirementOpen, setPostRequirementOpen] = useState(false);
   const [adminDashOpen, setAdminDashOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [filters, setFilters] = useState<Filters>({
@@ -195,7 +197,10 @@ function App() {
             </div>
             <button onClick={handleListProperty}
               className="bg-green-600 hover:bg-green-700 w-full py-3 rounded font-semibold">
-              + List Your Property
+              + List Your Property</button>
+            <button onClick={() => setPostRequirementOpen(true)}
+              className="border border-gray-600 hover:border-gray-400 w-full py-3 rounded font-semibold text-gray-300 hover:text-white text-sm">
+              📋 Post your requirements
             </button>
           </div>
           <SearchFilters onChange={setFilters} />
@@ -254,6 +259,7 @@ function App() {
 
       {ownerDashOpen && <OwnerDashboard onClose={() => setOwnerDashOpen(false)} />}
       {tenantDashOpen && <TenantDashboard onClose={() => setTenantDashOpen(false)} />}
+      {postRequirementOpen && <PostRequirement onClose={() => setPostRequirementOpen(false)} onSignIn={() => { setPostRequirementOpen(false); setAuthIntent('tenant'); setAuthModalOpen(true); }} />}
       {adminDashOpen && <AdminDashboard onClose={() => setAdminDashOpen(false)} />}
     </>
   );
