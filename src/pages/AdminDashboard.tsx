@@ -11,7 +11,6 @@ export default function AdminDashboard({ onClose }: { onClose: () => void }) {
   const [stats, setStats] = useState({ listings: 0, messages: 0, users: 0 });
   const [editListing, setEditListing] = useState<any>(null);
   const [requirements, setRequirements] = useState<any[]>([]);
-  const [requirements, setRequirements] = useState<any[]>([]);
 
   useEffect(() => { fetchAll(); }, []);
 
