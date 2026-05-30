@@ -24,6 +24,8 @@ export default function MobileLayout({
   detailProperty,
   onCloseDetail,
   onConnectOwner,
+  onPostRequirement,
+  onBrowseTenants,
 }: {
   properties: Property[];
   loading: boolean;
@@ -40,6 +42,8 @@ export default function MobileLayout({
   detailProperty: Property | null;
   onCloseDetail: () => void;
   onConnectOwner: () => void;
+  onPostRequirement: () => void;
+  onBrowseTenants: () => void;
 }) {
   const { user } = useAuth();
   const [sheetState, setSheetState] = useState<SheetState>("peek");
@@ -104,6 +108,14 @@ export default function MobileLayout({
                     <button onClick={() => { onOwnerDash(); setMobileMenuOpen(false); }}
                       className="w-full text-left px-4 py-3 text-sm text-white hover:bg-gray-700 flex items-center gap-2">
                       🏠 My Listings
+                    </button>
+                    <button onClick={() => { onBrowseTenants(); setMobileMenuOpen(false); }}
+                      className="w-full text-left px-4 py-3 text-sm text-white hover:bg-gray-700 flex items-center gap-2">
+                      📋 Browse Tenant Needs
+                    </button>
+                    <button onClick={() => { onPostRequirement(); setMobileMenuOpen(false); }}
+                      className="w-full text-left px-4 py-3 text-sm text-white hover:bg-gray-700 flex items-center gap-2">
+                      ✍️ Post Your Needs
                     </button>
                     {isAdmin && (
                       <button onClick={() => { onAdminDash(); setMobileMenuOpen(false); }}

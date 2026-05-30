@@ -16,12 +16,17 @@ export default function ChatModal({
   propertyTitle,
   receiverId,
   onClose,
+  isDirectChat = false,
+  chatTitle,
 }: {
   propertyId: string;
   propertyTitle: string;
   receiverId: string;
   onClose: () => void;
+  isDirectChat?: boolean;
+  chatTitle?: string;
 }) {
+  const displayTitle = chatTitle ?? propertyTitle;
   const { user } = useAuth();
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState("");
@@ -82,10 +87,10 @@ export default function ChatModal({
         {/* Header */}
         <div className="flex items-center gap-3 px-4 py-3 bg-gray-800 border-b border-gray-700">
           <div className="w-9 h-9 rounded-full bg-orange-500 flex items-center justify-center font-bold">
-            {propertyTitle[0]}
+            {displayTitle[0]}
           </div>
           <div className="flex-1">
-            <p className="font-semibold text-sm">{propertyTitle}</p>
+            <p className="font-semibold text-sm">{displayTitle}</p>
             <p className="text-xs text-gray-400">Property Owner</p>
           </div>
           <button onClick={onClose} className="text-gray-400 hover:text-white text-xl">✕</button>
@@ -96,7 +101,7 @@ export default function ChatModal({
           <div className="flex-1 flex flex-col justify-center px-6 space-y-4">
             <p className="text-center text-gray-300 text-sm">
               Introduce yourself to the owner of<br />
-              <span className="text-orange-400 font-semibold">{propertyTitle}</span>
+              <span className="text-orange-400 font-semibold">{displayTitle}</span>
             </p>
             <div>
               <label className="text-xs text-gray-400">Your Name</label>

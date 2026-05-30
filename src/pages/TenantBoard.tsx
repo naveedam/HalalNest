@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import ChatModal from "@/modules/chat/ChatModal";
+import ChatModal from "@/modules/chat/ChatModal";
 
 interface Requirement {
   id: string;
@@ -29,6 +31,8 @@ export default function TenantBoard({ onClose, onOpenChat }: {
   const { user } = useAuth();
   const [requirements, setRequirements] = useState<Requirement[]>([]);
   const [loading, setLoading] = useState(true);
+  const [chatTarget, setChatTarget] = useState<{ tenantId: string } | null>(null);
+  const [chatTarget, setChatTarget] = useState<{ tenantId: string } | null>(null);
   const [filter, setFilter] = useState({
     city: "",
     bedrooms: "" as string,
@@ -84,6 +88,7 @@ export default function TenantBoard({ onClose, onOpenChat }: {
   );
 
   return (
+    <>
     <div className="fixed inset-0 z-50 bg-gray-950 text-white flex flex-col">
 
       {/* Header */}
@@ -176,7 +181,7 @@ export default function TenantBoard({ onClose, onOpenChat }: {
               {/* CTA */}
               {user && user.id !== r.tenant_id && (
                 <button
-                  onClick={() => onOpenChat?.(r.tenant_id)}
+                  onClick={() => { setChatTarget({ tenantId: r.tenant_id }); }}
                   className="w-full py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold transition-colors"
                 >
                   I have a match →
@@ -191,5 +196,19 @@ export default function TenantBoard({ onClose, onOpenChat }: {
         )}
       </div>
     </div>
+  );
+
+      {/* Direct chat with tenant from TenantBoard */}
+      {chatTarget && user && (
+        <ChatModal
+          propertyId={[user.id, chatTarget.tenantId].sort().join("_req_")}
+          propertyTitle="Tenant Match"
+          receiverId={chatTarget.tenantId}
+          onClose={() => setChatTarget(null)}
+          isDirectChat={true}
+          chatTitle="Tenant Match"
+        />
+      )}
+    </>
   );
 }

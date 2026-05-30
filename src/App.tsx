@@ -135,6 +135,8 @@ function App() {
     detailProperty,
     onCloseDetail: () => setDetailProperty(null),
     onConnectOwner: handleConnectWithOwner,
+    onPostRequirement: () => setPostRequirementOpen(true),
+    onBrowseTenants: () => setTenantBoardOpen(true),
   };
 
   return (
