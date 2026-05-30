@@ -30,9 +30,11 @@ export default function AdminDashboard({ onClose }: { onClose: () => void }) {
       .order("created_at", { ascending: false })
       .limit(100);
 
+    // Only show users who signed up via HalalNest (market = 'us')
     const { data: profs, count: uCount } = await supabase
       .from("profiles")
-      .select("id, email, role, is_admin", { count: "exact" })
+      .select("id, email, role, is_admin, market", { count: "exact" })
+      .eq("market", "us")
       .order("id", { ascending: false })
       .limit(100);
 
@@ -42,6 +44,7 @@ export default function AdminDashboard({ onClose }: { onClose: () => void }) {
       .eq("market", "us")
       .order("created_at", { ascending: false })
       .limit(100);
+
     setRequirements(reqs || []);
     setListings(props || []);
     setMessages(msgs || []);
@@ -87,7 +90,6 @@ export default function AdminDashboard({ onClose }: { onClose: () => void }) {
           { label: "Messages", value: stats.messages, color: "text-blue-400" },
           { label: "Users", value: stats.users, color: "text-green-400" },
           { label: "Reqs", value: requirements.length, color: "text-purple-400" },
-          { label: "Reqs", value: requirements.length, color: "text-purple-400" },
         ].map(s => (
           <div key={s.label} className="bg-gray-900 px-4 py-3 text-center">
             <p className={`text-2xl font-bold ${s.color}`}>{s.value}</p>
@@ -119,7 +121,7 @@ export default function AdminDashboard({ onClose }: { onClose: () => void }) {
                 <div className="flex justify-between items-start">
                   <div className="flex-1 min-w-0">
                     <p className="font-semibold truncate">{l.title}</p>
-                    <p className="text-green-400 font-bold">₹{l.rent?.toLocaleString()}/mo</p>
+                    <p className="text-green-400 font-bold">${l.rent?.toLocaleString()}/mo</p>
                     <p className="text-gray-400 text-xs mt-1 truncate">{l.address}</p>
                     <div className="flex gap-2 mt-1">
                       <span className={`text-xs px-2 py-0.5 rounded-full ${l.latitude ? "bg-green-900 text-green-400" : "bg-red-900 text-red-400"}`}>
@@ -129,14 +131,8 @@ export default function AdminDashboard({ onClose }: { onClose: () => void }) {
                     </div>
                   </div>
                   <div className="flex flex-col gap-1 ml-3 flex-shrink-0">
-                    <button onClick={() => setEditListing(l)}
-                      className="text-orange-400 hover:text-orange-300 text-xs">
-                      ✏️
-                    </button>
-                    <button onClick={() => deleteListing(l.id)}
-                      className="text-red-400 hover:text-red-300 text-xs">
-                      🗑
-                    </button>
+                    <button onClick={() => setEditListing(l)} className="text-orange-400 hover:text-orange-300 text-xs">✏️</button>
+                    <button onClick={() => deleteListing(l.id)} className="text-red-400 hover:text-red-300 text-xs">🗑</button>
                   </div>
                 </div>
               </div>
@@ -147,16 +143,13 @@ export default function AdminDashboard({ onClose }: { onClose: () => void }) {
               <div key={m.id} className="bg-gray-800 rounded-xl p-4">
                 <div className="flex justify-between items-start">
                   <div className="flex-1 min-w-0">
-                    <p className="text-orange-400 text-xs font-semibold truncate">{m.properties?.title}</p>
+                    <p className="text-orange-400 text-xs font-semibold truncate">{m.properties?.title || "Direct Message"}</p>
                     {m.sender_name && <p className="text-white text-sm font-medium">{m.sender_name}</p>}
                     {m.sender_phone && <p className="text-gray-400 text-xs">📞 {m.sender_phone}</p>}
                     <p className="text-gray-300 text-sm mt-1">{m.message}</p>
                     <p className="text-gray-500 text-xs mt-1">{new Date(m.created_at).toLocaleDateString()}</p>
                   </div>
-                  <button onClick={() => deleteMessage(m.id)}
-                    className="text-red-400 hover:text-red-300 text-xs ml-3 flex-shrink-0">
-                    🗑
-                  </button>
+                  <button onClick={() => deleteMessage(m.id)} className="text-red-400 hover:text-red-300 text-xs ml-3 flex-shrink-0">🗑</button>
                 </div>
               </div>
             ))}
@@ -164,56 +157,20 @@ export default function AdminDashboard({ onClose }: { onClose: () => void }) {
             {/* USERS */}
             {tab === "users" && users.map(u => (
               <div key={u.id} className="bg-gray-800 rounded-xl p-4 flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full bg-orange-500 flex items-center justify-center font-bold text-sm flex-shrink-0">
+                <div className="w-9 h-9 rounded-full bg-green-700 flex items-center justify-center font-bold text-sm flex-shrink-0">
                   {u.email?.[0]?.toUpperCase()}
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm truncate">{u.email}</p>
-                  <div className="flex gap-2 mt-1">
+                  <div className="flex gap-2 mt-1 flex-wrap">
                     {u.is_admin && <span className="text-xs bg-purple-900 text-purple-300 px-2 py-0.5 rounded-full">Admin</span>}
                     <span className="text-xs bg-gray-700 text-gray-300 px-2 py-0.5 rounded-full">{u.role || "tenant"}</span>
+                    <span className="text-xs bg-green-900 text-green-400 px-2 py-0.5 rounded-full">🌙 HalalNest</span>
                   </div>
                 </div>
               </div>
             ))}
-            {/* REQUIREMENTS */}
-            {tab === "requirements" && requirements.map(r => (
-              <div key={r.id} className="bg-gray-800 rounded-xl p-4 space-y-2">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <p className="font-semibold">{r.bedrooms ? `${r.bedrooms} BR` : "Any"} · {r.city}</p>
-                    <p className="text-orange-400 text-sm font-bold">
-                      {r.budget_min && r.budget_max ? `$${r.budget_min}–$${r.budget_max}/mo` : "Budget flexible"}
-                    </p>
-                  </div>
-                  <div className="flex flex-col items-end gap-1">
-                    <span className={`text-xs px-2 py-0.5 rounded-full ${r.status === "active" ? "bg-green-900 text-green-400" : "bg-gray-700 text-gray-400"}`}>
-                      {r.status}
-                    </span>
-                    <button
-                      onClick={async () => {
-                        if (!confirm("Delete this requirement?")) return;
-                        await supabase.from("tenant_requirements").delete().eq("id", r.id);
-                        setRequirements(prev => prev.filter(x => x.id !== r.id));
-                      }}
-                      className="text-xs text-red-400 hover:text-red-300"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </div>
-                {r.near_university && <p className="text-xs text-gray-400">Near {r.near_university}</p>}
-                <p className="text-xs text-gray-500">
-                  Move-in: {new Date(r.move_in_date).toLocaleDateString()} · Posted: {new Date(r.created_at).toLocaleDateString()}
-                </p>
-                <div className="flex gap-1.5 flex-wrap">
-                  {r.needs_halal_kitchen && <span className="text-xs bg-gray-700 text-gray-300 px-2 py-0.5 rounded-full">🍳 Halal</span>}
-                  {r.needs_prayer_space && <span className="text-xs bg-gray-700 text-gray-300 px-2 py-0.5 rounded-full">🕌 Prayer</span>}
-                  {r.needs_alcohol_free && <span className="text-xs bg-gray-700 text-gray-300 px-2 py-0.5 rounded-full">🚫 Alcohol Free</span>}
-                  {r.near_mosque && <span className="text-xs bg-gray-700 text-gray-300 px-2 py-0.5 rounded-full">🕌 Mosque</span>}
-                </div>
-              </div>
-            ))}
+
             {/* REQUIREMENTS */}
             {tab === "requirements" && requirements.map(r => (
               <div key={r.id} className="bg-gray-800 rounded-xl p-4 space-y-2">
@@ -255,14 +212,5 @@ export default function AdminDashboard({ onClose }: { onClose: () => void }) {
           </>
         )}
       </div>
+
       {editListing && (
-        <EditListingModal
-          listing={editListing}
-          adminMode={true}
-          onClose={() => setEditListing(null)}
-          onSaved={() => { setEditListing(null); fetchAll(); }}
-        />
-      )}
-    </div>
-  );
-}
