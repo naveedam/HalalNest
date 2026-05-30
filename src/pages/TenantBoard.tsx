@@ -32,7 +32,6 @@ export default function TenantBoard({ onClose, onOpenChat }: {
   const [requirements, setRequirements] = useState<Requirement[]>([]);
   const [loading, setLoading] = useState(true);
   const [chatTarget, setChatTarget] = useState<{ tenantId: string } | null>(null);
-  const [chatTarget, setChatTarget] = useState<{ tenantId: string } | null>(null);
   const [filter, setFilter] = useState({
     city: "",
     bedrooms: "" as string,
