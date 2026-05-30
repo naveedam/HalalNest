@@ -30,7 +30,6 @@ export default function AdminDashboard({ onClose }: { onClose: () => void }) {
       .order("created_at", { ascending: false })
       .limit(100);
 
-    // Only show users who signed up via HalalNest (market = 'us')
     const { data: profs, count: uCount } = await supabase
       .from("profiles")
       .select("id, email, role, is_admin, market", { count: "exact" })
@@ -74,7 +73,6 @@ export default function AdminDashboard({ onClose }: { onClose: () => void }) {
 
   return (
     <div className="fixed inset-0 z-50 bg-gray-950 text-white flex flex-col">
-      {/* Header */}
       <div className="flex items-center justify-between px-4 py-4 border-b border-gray-800 bg-gray-900">
         <div>
           <h1 className="font-bold text-lg">⚙️ Admin Dashboard</h1>
@@ -83,7 +81,6 @@ export default function AdminDashboard({ onClose }: { onClose: () => void }) {
         <button onClick={onClose} className="text-gray-400 hover:text-white text-xl">✕</button>
       </div>
 
-      {/* Stats bar */}
       <div className="grid grid-cols-4 gap-px bg-gray-800">
         {[
           { label: "Listings", value: stats.listings, color: "text-orange-400" },
@@ -98,7 +95,6 @@ export default function AdminDashboard({ onClose }: { onClose: () => void }) {
         ))}
       </div>
 
-      {/* Tabs */}
       <div className="flex border-b border-gray-800">
         {TABS.map(t => (
           <button key={t.key} onClick={() => setTab(t.key as any)}
@@ -111,11 +107,9 @@ export default function AdminDashboard({ onClose }: { onClose: () => void }) {
         ))}
       </div>
 
-      {/* Content */}
       <div className="flex-1 overflow-y-auto p-4 space-y-3">
         {loading ? <p className="text-gray-400">Loading...</p> : (
           <>
-            {/* LISTINGS */}
             {tab === "listings" && listings.map(l => (
               <div key={l.id} className="bg-gray-800 rounded-xl p-4">
                 <div className="flex justify-between items-start">
@@ -138,7 +132,6 @@ export default function AdminDashboard({ onClose }: { onClose: () => void }) {
               </div>
             ))}
 
-            {/* MESSAGES */}
             {tab === "messages" && messages.map(m => (
               <div key={m.id} className="bg-gray-800 rounded-xl p-4">
                 <div className="flex justify-between items-start">
@@ -154,7 +147,6 @@ export default function AdminDashboard({ onClose }: { onClose: () => void }) {
               </div>
             ))}
 
-            {/* USERS */}
             {tab === "users" && users.map(u => (
               <div key={u.id} className="bg-gray-800 rounded-xl p-4 flex items-center gap-3">
                 <div className="w-9 h-9 rounded-full bg-green-700 flex items-center justify-center font-bold text-sm flex-shrink-0">
@@ -171,7 +163,6 @@ export default function AdminDashboard({ onClose }: { onClose: () => void }) {
               </div>
             ))}
 
-            {/* REQUIREMENTS */}
             {tab === "requirements" && requirements.map(r => (
               <div key={r.id} className="bg-gray-800 rounded-xl p-4 space-y-2">
                 <div className="flex justify-between items-start">
@@ -214,3 +205,13 @@ export default function AdminDashboard({ onClose }: { onClose: () => void }) {
       </div>
 
       {editListing && (
+        <EditListingModal
+          listing={editListing}
+          adminMode={true}
+          onClose={() => setEditListing(null)}
+          onSaved={() => { setEditListing(null); fetchAll(); }}
+        />
+      )}
+    </div>
+  );
+}
