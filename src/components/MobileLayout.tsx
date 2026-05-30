@@ -151,11 +151,20 @@ export default function MobileLayout({
         />
       </div>
 
-      {/* LIST YOUR PROPERTY FAB */}
-      <div className="absolute left-4 z-20" style={{bottom: `calc(${sheetHeights[sheetState]} + 16px)`, transition: "bottom 0.3s ease"}}>
+      {/* ACTION FABs — always visible above bottom sheet */}
+      <div className="absolute left-0 right-0 z-20 flex items-center justify-center gap-2 px-4"
+        style={{bottom: `calc(${sheetHeights[sheetState]} + 12px)`, transition: "bottom 0.3s ease"}}>
         <button onClick={onListProperty}
-          className="bg-green-600 hover:bg-orange-600 text-white text-sm font-semibold px-4 py-2.5 rounded-full shadow-lg">
-          + List Property
+          className="bg-green-600 hover:bg-green-700 text-white text-xs font-semibold px-3 py-2 rounded-full shadow-lg whitespace-nowrap">
+          🏠 List Property
+        </button>
+        <button onClick={onBrowseTenants}
+          className="bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold px-3 py-2 rounded-full shadow-lg whitespace-nowrap">
+          📋 Browse Tenants
+        </button>
+        <button onClick={onPostRequirement}
+          className="bg-teal-600 hover:bg-teal-700 text-white text-xs font-semibold px-3 py-2 rounded-full shadow-lg whitespace-nowrap">
+          ✍️ Post Needs
         </button>
       </div>
 

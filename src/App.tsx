@@ -282,6 +282,7 @@ function App() {
         <TenantBoard
           onClose={() => setTenantBoardOpen(false)}
           onOpenChat={(tenantId) => { setTenantBoardOpen(false); }}
+          onSignIn={() => { setTenantBoardOpen(false); setAuthIntent('tenant'); setAuthModalOpen(true); }}
         />
       )}
       {postRequirementOpen && (

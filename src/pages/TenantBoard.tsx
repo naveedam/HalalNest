@@ -24,9 +24,10 @@ interface Requirement {
   tenant_id: string;
 }
 
-export default function TenantBoard({ onClose, onOpenChat }: {
+export default function TenantBoard({ onClose, onOpenChat, onSignIn }: {
   onClose: () => void;
   onOpenChat?: (tenantId: string) => void;
+  onSignIn?: () => void;
 }) {
   const { user } = useAuth();
   const [requirements, setRequirements] = useState<Requirement[]>([]);
@@ -187,7 +188,12 @@ export default function TenantBoard({ onClose, onOpenChat }: {
                 </button>
               )}
               {!user && (
-                <p className="text-xs text-center text-gray-500">Sign in to contact this tenant</p>
+                <button
+                  onClick={() => { onClose(); onSignIn?.(); }}
+                  className="w-full py-2 rounded-lg border border-orange-500 text-orange-400 hover:bg-orange-500 hover:text-white text-sm font-semibold transition-colors"
+                >
+                  Sign in to contact →
+                </button>
               )}
 
             </div>

@@ -75,7 +75,7 @@ export default function AdminDashboard({ onClose }: { onClose: () => void }) {
       <div className="flex items-center justify-between px-4 py-4 border-b border-gray-800 bg-gray-900">
         <div>
           <h1 className="font-bold text-lg">⚙️ Admin Dashboard</h1>
-          <p className="text-xs text-gray-400">EasyHouseHunt</p>
+          <p className="text-xs text-gray-400">HalalNest</p>
         </div>
         <button onClick={onClose} className="text-gray-400 hover:text-white text-xl">✕</button>
       </div>
