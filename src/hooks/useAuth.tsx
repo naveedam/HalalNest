@@ -30,10 +30,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     init();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);
+
+      if (event === "SIGNED_IN" && session?.user) {
+        supabase.from("profiles").upsert(
+          { id: session.user.id, email: session.user.email, market: "us" },
+          { onConflict: "id", ignoreDuplicates: true }
+        );
+      }
     });
 
     return () => subscription.unsubscribe();
